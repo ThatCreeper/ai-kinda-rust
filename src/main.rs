@@ -1,32 +1,63 @@
-pub enum NeuronConnection {
-    Neuron(Neuron),
-    Connection
-}
-
 pub struct System {
-    system: Vec<Vec<Vec<Vec<NeuronConnection>>>>,
+    networks: Vec<Network>,
 }
 
 impl System {
+    pub fn create() -> System {
+        System {
+            networks: vec!(),
+        }
+    }
+
     pub fn create_network(&mut self) -> usize {
-        self.system.push(vec!(vec!(vec!(),vec!())));
-        self.system.len() - 1
+        self.networks.push(Network.create());
+        self.networks.len() - 1
     }
     pub fn create_layer(&mut self, net: usize) -> usize {
-        self.system[net].push(vec!(vec!(),vec!()));
-        self.system[net].len() - 1
+        self.networks[net].layers.push(Layer.create());
+        self.networks[net].layers.len() - 1
+    }
+}
+
+pub struct Network {
+    layers: Vec<Layer>,
+}
+
+impl Network {
+    pub fn create() -> Network {
+        Network {
+            layers: vec!(),
+        }
+    }
+}
+
+pub struct Layer {
+    neurons: Vec<Neuron>,
+    connections: Vec<Connection>,
+}
+
+impl Layer {
+    pub fn create() -> Layer {
+        Layer {
+            neurons: vec!(),
+            connections: vec!(),
+        }
     }
 }
 
 pub enum NeuronIO {
     Input,
     None,
-    Output
+    Output,
 }
 
 pub struct Neuron {
     ntype: i16,
-    IO: NeuronIO,
+    io: NeuronIO,
+}
+
+pub struct Connection {
+    // placeholder
 }
 
 fn main() {
