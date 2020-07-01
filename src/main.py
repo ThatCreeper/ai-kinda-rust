@@ -12,18 +12,33 @@ class system:
     
     def createNeuron(self, id, net, layer, index, type, IO): # (self, int, int, int, int, int, int)
         id = neuron(type, IO, id)
-        self.system[net][layer].insert(index, id)
+        self.system[net][layer][0].insert(index, id)
 
     def createConnection(self, id, net, layer, start, end, weight = 1): # (self, int, int, int, int, int, float)
         id = connection(start, end, weight, self)
-        self.system[net][layer].append(id)
+        self.system[net][layer][1].append(id)
+
+    def check(self):
+        for x in range(0, len(self.system)):
+            #net
+            for x2 in range(0, len(self.system[x])):
+                #layer
+                for x3 in range(0, len(self.system[x][x2][0])):
+                    self.system[x][x2][0][x3].check()
+                for x3 in range(0, len(self.system[x][x2][1])):
+                    self.system[x][x2][1][x3].check()
+
 
 class neuron:
     
+    value = 0
+    output = 0
+
     def __init__(self, type, IO, name):
         self.type = type
         self.IO = IO
         self.name = name
+        self.inputs = []
 
     def __repr__(self):
         return "<neuron type:" + str(self.type) + " IO:" + str(self.IO) + " name:" + str(self.name) + ">"
@@ -34,9 +49,38 @@ class neuron:
     def __truediv__(self, other):
         raise Exception("YES.")
 
-    def check(num):
-        pass
+    def check(self):
+        #get input
+        
+        self.value = sum(self.inputs)
+        self.inputs = []
+        if self.IO == -1:
+            self.value = int(input('input for neuron ' + str(self.name) + ': '))
 
+        #transform inputs
+
+        if self.type == 0:
+            self.output = self.value
+        elif self.type == 1:
+            if self.value > 0:
+                self.output = self.value
+            else:
+                self.output = 0
+        elif self.type == 2:
+            if self.value >= 1:
+                self.output = 1
+            else:
+                self.output = 0
+        elif self.type == 3:
+            if self.value >= 1:
+                self.output = 1
+            elif self.value <= -1:
+                self.output = 1
+            else:
+                self.output = 0
+
+        if self.IO == 1:
+            print(self.output)
 
 
 class connection:
@@ -78,6 +122,8 @@ class connection:
                             self.endNet = x
                             self.endLayer = x2
                             self.endIndex = x3
+        
+        self.sys.system[self.endIndex][self.endLayer][0][self.endIndex].inputs.append(self.sys.system[self.startNet][self.startLayer][0][self.startIndex].output * self.weight)
                             
     
     def __repr__(self):
@@ -100,6 +146,9 @@ sys.createConnection(2, 0, 1, 2, 3, 1)
 #0->0->0
 #I  N  O
 
-print(sys.system[0][0][0].name)
+print(sys.system[0][0][0][0].name)
 
 print(sys.system)
+
+for x in range(0, 5):
+    sys.check()
