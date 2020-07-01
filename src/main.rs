@@ -1,13 +1,20 @@
-
+pub enum NeuronConnection {
+    Neuron(Neuron),
+    Connection
+}
 
 pub struct System {
-    system: vec!(),
+    system: Vec<Vec<Vec<Vec<NeuronConnection>>>>,
 }
 
 impl System {
-    pub fn createNetwork(&mut self) -> i32 {
-        self.system.push();
-        self.system.len()
+    pub fn create_network(&mut self) -> usize {
+        self.system.push(vec!(vec!(vec!(),vec!())));
+        self.system.len() - 1
+    }
+    pub fn create_layer(&mut self, net: usize) -> usize {
+        self.system[net].push(vec!(vec!(),vec!()));
+        self.system[net].len() - 1
     }
 }
 
