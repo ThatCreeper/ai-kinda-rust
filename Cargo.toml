@@ -1,5 +1,5 @@
 [package]
-name = "neural-network-rust"
+name = "ai-kinda-rust"
 version = "0.1.0"
 authors = ["ThatCreeper <creeper_host@yahoo.com>"]
 edition = "2018"
